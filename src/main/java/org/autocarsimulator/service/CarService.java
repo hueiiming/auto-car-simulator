@@ -6,5 +6,5 @@ import org.autocarsimulator.model.Position;
 import java.util.List;
 
 public interface CarService {
-    public void drive(Position startPos, int maxWidth, int maxHeight, List<Command> commands);
+    void drive(Position startPos, int maxWidth, int maxHeight, List<Command> commands);
 }

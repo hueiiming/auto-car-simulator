@@ -12,14 +12,13 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void drive(Position pos, int maxWidth, int maxHeight, List<Command> commands) {
-        Direction currDirection = pos.getDirection();
         for (Command cmd : commands) {
             switch (cmd) {
                 case L:
-                    pos.setDirection(currDirection.turnLeft());
+                    pos.setDirection(pos.getDirection().turnLeft());
                     break;
                 case R:
-                    pos.setDirection(currDirection.turnRight());
+                    pos.setDirection(pos.getDirection().turnRight());
                     break;
                 case F:
                     moveForward(pos, maxWidth, maxHeight);
