@@ -1,5 +1,5 @@
 package org.autocarsimulator.model;
 
-public enum Commands {
+public enum Command {
     L, R, F;
 }

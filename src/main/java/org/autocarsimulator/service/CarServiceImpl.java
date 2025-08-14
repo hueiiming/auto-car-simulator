@@ -1,23 +1,29 @@
 package org.autocarsimulator.service;
 
+import org.autocarsimulator.model.Command;
 import org.autocarsimulator.model.Direction;
 import org.autocarsimulator.model.Position;
 
-import static org.autocarsimulator.model.Gear.F;
+import java.util.List;
+
+import static org.autocarsimulator.model.Command.F;
 
 public class CarServiceImpl implements CarService {
 
     @Override
-    public void drive(Position pos, int maxWidth, int maxHeight, String commands) {
+    public void drive(Position pos, int maxWidth, int maxHeight, List<Command> commands) {
         Direction currDirection = pos.getDirection();
-        for (char cmd : commands.toCharArray()) {
+        for (Command cmd : commands) {
             switch (cmd) {
-                case 'L':
+                case L:
                     pos.setDirection(currDirection.turnLeft());
-                case 'R':
+                    break;
+                case R:
                     pos.setDirection(currDirection.turnRight());
+                    break;
                 case F:
-
+                    moveForward(pos, maxWidth, maxHeight);
+                    break;
             }
         }
     }
@@ -25,5 +31,12 @@ public class CarServiceImpl implements CarService {
     private void moveForward(Position pos, int maxWidth, int maxHeight) {
         int x = pos.getX();
         int y = pos.getY();
+
+        switch (pos.getDirection()) {
+            case N: if (y < maxHeight) pos.setY(y + 1); break;
+            case S: if (y > 0) pos.setY(y - 1); break;
+            case E: if (x < maxWidth) pos.setX(x + 1); break;
+            case W: if (x > 0) pos.setX(x - 1); break;
+        }
     }
 }
