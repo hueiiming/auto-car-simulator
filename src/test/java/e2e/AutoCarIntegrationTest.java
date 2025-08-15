@@ -17,19 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AutoCarIntegrationTest {
 
-    @AfterEach
-    public void clearOutputFolder() {
-        String outputFolderPath = "src/test/resources/output";
-        File outputFolder = new File(outputFolderPath);
-        if (outputFolder.exists() && outputFolder.isDirectory()) {
-            for (File file : outputFolder.listFiles()) {
-                if (file.isFile()) {
-                    file.delete();
-                }
-            }
-        }
-    }
-
     @Test
     public void testSingleCarWithMockedInputFile() throws Exception {
 
