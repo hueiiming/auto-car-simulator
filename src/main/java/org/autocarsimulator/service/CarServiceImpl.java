@@ -1,15 +1,14 @@
 package org.autocarsimulator.service;
 
+import org.autocarsimulator.controller.MultiCarControllerImpl;
 import org.autocarsimulator.model.Car;
 import org.autocarsimulator.model.Command;
-import org.autocarsimulator.model.Direction;
 import org.autocarsimulator.model.Position;
 
-import java.util.List;
-
-import static org.autocarsimulator.model.Command.F;
+import java.util.logging.Logger;
 
 public class CarServiceImpl implements CarService {
+    private static final Logger LOGGER = Logger.getLogger(MultiCarControllerImpl.class.getName());
 
     @Override
     public void drive(Car car, Command command, int width, int height) {

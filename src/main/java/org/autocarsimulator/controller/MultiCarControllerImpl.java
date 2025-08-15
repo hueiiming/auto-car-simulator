@@ -2,17 +2,24 @@ package org.autocarsimulator.controller;
 
 import org.autocarsimulator.model.*;
 import org.autocarsimulator.service.CarService;
-import org.autocarsimulator.service.CarServiceImpl;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MultiCarControllerImpl implements CarController {
+    private static final Logger LOGGER = Logger.getLogger(MultiCarControllerImpl.class.getName());
+
+    private final CarService carService;
+
+    public MultiCarControllerImpl(CarService carService) {
+        this.carService = carService;
+    }
+
     @Override
-    public Result executeCarController(Input input) throws IOException {
+    public Result executeCarController(Input input) {
         Field field = input.getField();
         List<Car> cars = input.getCars();
-        CarService carService = new CarServiceImpl();
         int steps = 0;
 
         while (true) {
@@ -20,20 +27,21 @@ public class MultiCarControllerImpl implements CarController {
 
             for (Car car : cars) {
                 List<Command> commands = car.getCommands();
-                if (!commands.isEmpty()) {
-                    allCommandsExecuted = false; // At least one car still has commands
-                    Command command = commands.remove(0);
-                    carService.drive(car, command, field.getWidth(), field.getHeight());
+                if (commands.isEmpty()) {
+                    continue;
+                }
 
-                    for (Car otherCar : cars) {
-                        if (car != otherCar
-                                && car.getPosition().getX() == otherCar.getPosition().getX()
-                                && car.getPosition().getY() == otherCar.getPosition().getY()
-                            ) {
-                                return new CollisionResult(car.getName(), otherCar.getName(), car.getPosition(), steps + 1, true);
-                        }
+                allCommandsExecuted = false; // At least one car still has commands
+                processCarCommand(car, field);
+
+                for (Car otherCar : cars) {
+                    if (isCollision(car, otherCar)) {
+                        LOGGER.log(Level.WARNING, "Collision detected between {0} and {1} at position {2} on step {3}.",
+                                new Object[]{car.getName(), otherCar.getName(), car.getPosition(), steps + 1});
+                        return new CollisionResult(car.getName(), otherCar.getName(), car.getPosition(), steps + 1, true);
                     }
                 }
+
             }
             steps++;
 
@@ -42,5 +50,15 @@ public class MultiCarControllerImpl implements CarController {
             }
         }
         return new CollisionResult();
+    }
+
+    private void processCarCommand(Car car, Field field) {
+        Command command = car.getCommands().remove(0);
+        this.carService.drive(car, command, field.getWidth(), field.getHeight());
+    }
+    private boolean isCollision(Car car, Car otherCar) {
+        return car != otherCar
+                && car.getPosition().getX() == otherCar.getPosition().getX()
+                && car.getPosition().getY() == otherCar.getPosition().getY();
     }
 }

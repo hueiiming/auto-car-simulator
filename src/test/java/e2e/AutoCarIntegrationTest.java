@@ -5,8 +5,9 @@ import org.autocarsimulator.controller.MultiCarControllerImpl;
 import org.autocarsimulator.controller.SingleCarControllerImpl;
 import org.autocarsimulator.model.Input;
 import org.autocarsimulator.model.Result;
+import org.autocarsimulator.service.CarService;
+import org.autocarsimulator.service.CarServiceImpl;
 import org.autocarsimulator.util.util;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -25,7 +26,8 @@ public class AutoCarIntegrationTest {
         List<String> inputLines = Files.readAllLines(new File(inputFilePath).toPath());
         Input input = util.parseInput1(inputLines);
 
-        CarController singleCarController = new SingleCarControllerImpl();
+        CarService carService = new CarServiceImpl();
+        CarController singleCarController = new SingleCarControllerImpl(carService);
         Result result = singleCarController.executeCarController(input);
         util.writeOutputFile(outputFilePath, result.getResult());
 
@@ -42,7 +44,8 @@ public class AutoCarIntegrationTest {
         List<String> inputLines = Files.readAllLines(new File(inputFilePath).toPath());
         Input input = util.parseInput2(inputLines);
 
-        CarController multiCarController = new MultiCarControllerImpl();
+        CarService carService = new CarServiceImpl();
+        CarController multiCarController = new MultiCarControllerImpl(carService);
         Result result = multiCarController.executeCarController(input);
         util.writeOutputFile(outputFilePath, result.getResult());
 

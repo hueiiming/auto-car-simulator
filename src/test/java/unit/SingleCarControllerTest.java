@@ -2,6 +2,8 @@ package unit;
 
 import org.autocarsimulator.controller.SingleCarControllerImpl;
 import org.autocarsimulator.model.*;
+import org.autocarsimulator.service.CarService;
+import org.autocarsimulator.service.CarServiceImpl;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -10,10 +12,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SingleCarControllerTest {
-    private final SingleCarControllerImpl controller = new SingleCarControllerImpl();
+    private final CarService carService = new CarServiceImpl();
+
+    private final SingleCarControllerImpl controller = new SingleCarControllerImpl(carService);
 
     @Test
-    public void testSingleCarExecution() throws Exception {
+    public void testSingleCarExecution() {
         Car car = new Car("A", new Position(0, 0, Direction.N), new ArrayList<>(List.of(Command.F, Command.R, Command.F)));
         Input input = new Input(new Field(5, 5), new ArrayList<>(List.of(car)));
 
@@ -26,7 +30,7 @@ public class SingleCarControllerTest {
     }
 
     @Test
-    public void testBoundaryCondition() throws Exception {
+    public void testBoundaryCondition() {
         Car car = new Car("A", new Position(0, 0, Direction.S), new ArrayList<>(List.of(Command.F)));
         Input input = new Input(new Field(5, 5), new ArrayList<>(List.of(car)));
 
