@@ -5,14 +5,17 @@ public class CollisionResult implements Result {
     private final String carName2;
     private final Position collisionPosition;
     private final int stepsToCollision;
-    private final boolean collisionOccured;
+    private final boolean collisionOccurred;
 
-    public CollisionResult(String carName1, String carName2, Position collisionPosition, int stepsToCollision, boolean collisionOccured) {
+    public CollisionResult(String carName1, String carName2, Position collisionPosition, int stepsToCollision) {
+        if (carName1 == null || carName2 == null || collisionPosition == null) {
+            throw new IllegalArgumentException("Car names and collision position cannot be null.");
+        }
         this.carName1 = carName1;
         this.carName2 = carName2;
         this.collisionPosition = collisionPosition;
         this.stepsToCollision = stepsToCollision;
-        this.collisionOccured = true;
+        this.collisionOccurred = true;
     }
 
     public CollisionResult() {
@@ -20,7 +23,7 @@ public class CollisionResult implements Result {
         this.carName2 = null;
         this.collisionPosition = null;
         this.stepsToCollision = 0;
-        this.collisionOccured = false;
+        this.collisionOccurred = false;
     }
 
     @Override
@@ -36,11 +39,11 @@ public class CollisionResult implements Result {
     public int getStepsToCollision() { return stepsToCollision; }
 
     @Override
-    public boolean isCollisionOccured() { return this.collisionOccured; }
+    public boolean isCollisionOccurred() { return this.collisionOccurred; }
 
     @Override
     public String getResult() {
-        if (this.collisionOccured) {
+        if (this.collisionOccurred) {
             return carName1 + " " + carName2 + "\n" + collisionPosition.getX() + " " + collisionPosition.getY() + "\n" + stepsToCollision;
         } else {
             return "no collision";

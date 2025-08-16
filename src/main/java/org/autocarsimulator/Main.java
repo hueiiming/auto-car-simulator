@@ -5,8 +5,7 @@ import org.autocarsimulator.controller.CarController;
 import org.autocarsimulator.controller.CarControllerExecutor;
 import org.autocarsimulator.controller.MultiCarControllerImpl;
 import org.autocarsimulator.controller.SingleCarControllerImpl;
-import org.autocarsimulator.service.CarService;
-import org.autocarsimulator.service.CarServiceImpl;
+import org.autocarsimulator.service.*;
 
 import java.io.IOException;
 import java.util.Properties;
@@ -22,7 +21,9 @@ public class Main {
             Properties properties = ConfigLoader.loadProperties(CONFIG_FILE);
             LOGGER.log(Level.INFO, "Properties file loaded successfully.");
 
-            CarControllerExecutor carControllerExecutor = new CarControllerExecutor(LOGGER);
+            InputValidatorService inputValidatorSingleService = new InputValidatorSingleServiceImpl();
+            InputValidatorService inputValidatorMultiServiceService = new InputValidatorMultiServiceImpl();
+            CarControllerExecutor carControllerExecutor = new CarControllerExecutor(inputValidatorSingleService, inputValidatorMultiServiceService, LOGGER);
             CarService carService = new CarServiceImpl(LOGGER);
 
             CarController singleCarController = new SingleCarControllerImpl(carService, LOGGER);

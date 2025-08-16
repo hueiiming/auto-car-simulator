@@ -11,5 +11,5 @@ public interface Result {
 
     default int getStepsToCollision() { return 0; }
 
-    default boolean isCollisionOccured() { return false; }
+    default boolean isCollisionOccurred() { return false; }
 }

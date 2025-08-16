@@ -2,6 +2,7 @@ package org.autocarsimulator.controller;
 
 import org.autocarsimulator.model.Input;
 import org.autocarsimulator.model.Result;
+import org.autocarsimulator.service.InputValidatorService;
 import org.autocarsimulator.util.util;
 
 import java.util.Properties;
@@ -10,14 +11,22 @@ import java.util.logging.Logger;
 
 public class CarControllerExecutor {
     private final Logger logger;
+    private final InputValidatorService singleCarValidator;
+    private final InputValidatorService multiCarValidator;
 
-    public CarControllerExecutor(Logger logger) {
+    public CarControllerExecutor(InputValidatorService singleCarValidator, InputValidatorService multiCarValidator, Logger logger) {
+        this.singleCarValidator = singleCarValidator;
+        this.multiCarValidator = multiCarValidator;
         this.logger = logger;
     }
 
     public void executeSingleCarController(Properties properties, CarController singleCarController) {
         try {
-            Input input = util.parseInput1(properties.getProperty("input.filepath1"));
+            String inputFilePath = properties.getProperty("input.filepath1");
+            singleCarValidator.validateInput(inputFilePath, logger);
+
+            // Process after input is validated
+            Input input = util.parseInput1(inputFilePath);
             String outputFilePath = properties.getProperty("output.filepath1");
 
             Result result = singleCarController.executeCarController(input);
@@ -31,7 +40,11 @@ public class CarControllerExecutor {
 
     public void executeMultiCarController(Properties properties, CarController multiCarController) {
         try {
-            Input input = util.parseInput2(properties.getProperty("input.filepath2"));
+            String inputFilePath = properties.getProperty("input.filepath2");
+            multiCarValidator.validateInput(inputFilePath, logger);
+
+            // Process after input is validated
+            Input input = util.parseInput2(inputFilePath);
             String outputFilePath = properties.getProperty("output.filepath2");
 
             Result result = multiCarController.executeCarController(input);

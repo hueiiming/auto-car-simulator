@@ -28,6 +28,8 @@ public class MultiCarControllerImpl implements CarController {
 
             for (Car car : cars) {
                 List<Command> commands = car.getCommands();
+
+                // Skip cars with no commands left
                 if (commands.isEmpty()) {
                     continue;
                 }
@@ -35,32 +37,42 @@ public class MultiCarControllerImpl implements CarController {
                 allCommandsExecuted = false; // At least one car still has commands
                 processCarCommand(car, field);
 
-                for (Car otherCar : cars) {
-                    if (isCollision(car, otherCar)) {
-                        logger.log(Level.WARNING, MessageFormat.format("Collision detected between {0} and {1} at position {2} on step {3}.",
-                                car.getName(), otherCar.getName(), car.getPosition(), steps + 1));
-                        return new CollisionResult(car.getName(), otherCar.getName(), car.getPosition(), steps + 1, true);
-                    }
+                Car collidingCar = detectCollision(car, cars);
+                if (collidingCar != null) {
+                    logger.log(Level.WARNING, MessageFormat.format(
+                            "Collision detected between {0} and {1} at position {2} on step {3}.",
+                            car.getName(), collidingCar.getName(), car.getPosition(), steps + 1));
+                    return new CollisionResult(car.getName(), collidingCar.getName(), car.getPosition(), steps + 1);
                 }
-
             }
+
             steps++;
 
+            // Exit loop once all commands have been executed
             if (allCommandsExecuted) {
                 break;
             }
         }
+
         logger.log(Level.INFO, "No collision");
-        return new CollisionResult();
+        return new CollisionResult(); // Return no collision result
     }
 
     private void processCarCommand(Car car, Field field) {
+        // Remove the command to process commands sequentially
         Command command = car.getCommands().remove(0);
+
         this.carService.drive(car, command, field.getWidth(), field.getHeight());
     }
-    private boolean isCollision(Car car, Car otherCar) {
-        return car != otherCar
-                && car.getPosition().getX() == otherCar.getPosition().getX()
-                && car.getPosition().getY() == otherCar.getPosition().getY();
+
+    private Car detectCollision(Car car, List<Car> cars) {
+        for (Car otherCar : cars) {
+            if (car != otherCar
+                    && car.getPosition().getX() == otherCar.getPosition().getX()
+                    && car.getPosition().getY() == otherCar.getPosition().getY()) {
+                return otherCar; // Return the colliding car
+            }
+        }
+        return null; // No collision detected
     }
 }

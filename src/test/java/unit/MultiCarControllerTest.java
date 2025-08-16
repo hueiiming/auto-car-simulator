@@ -26,7 +26,7 @@ public class MultiCarControllerTest {
 
         Result result = controller.executeCarController(input);
 
-        assertFalse(result.isCollisionOccured());
+        assertFalse(result.isCollisionOccurred());
         assertNull(result.getCollisionPosition());
         assertEquals(0, result.getStepsToCollision());
         assertEquals("no collision", result.getResult());
@@ -41,7 +41,7 @@ public class MultiCarControllerTest {
 
         Result result = controller.executeCarController(input);
 
-        assertTrue(result.isCollisionOccured());
+        assertTrue(result.isCollisionOccurred());
         assertEquals("A", result.getCarName1());
         assertEquals("B", result.getCarName2());
         assertEquals(0, result.getCollisionPosition().getX());
