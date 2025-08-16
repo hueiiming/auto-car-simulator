@@ -17,17 +17,17 @@ public class CarServiceImpl implements CarService {
     @Override
     public void drive(Car car, Command command, int width, int height) {
         Position pos = car.getPosition();
-        logger.log(Level.INFO, MessageFormat.format(
+        logger.info(MessageFormat.format(
                 "Driving car: {0}, Command: {1}, Current Position: {2}, Grid: {3}x{4}",
                 car.getName(), command, pos, width, height));
         switch (command) {
             case L:
                 pos.setDirection(pos.getDirection().turnLeft());
-                logger.log(Level.INFO, MessageFormat.format("Car turned left. New direction: {0}", pos.getDirection()));
+                logger.info(MessageFormat.format("Car turned left. New direction: {0}", pos.getDirection()));
                 break;
             case R:
                 pos.setDirection(pos.getDirection().turnRight());
-                logger.log(Level.INFO, MessageFormat.format("Car turned right. New direction: {0}", pos.getDirection()));
+                logger.info(MessageFormat.format("Car turned right. New direction: {0}", pos.getDirection()));
                 break;
             case F:
                 moveForward(pos, width, height);
@@ -37,7 +37,7 @@ public class CarServiceImpl implements CarService {
     }
 
     private void moveForward(Position pos, int maxWidth, int maxHeight) {
-        logger.log(Level.INFO, MessageFormat.format("Attempting to move forward. Current Position: {0}", pos));
+        logger.info(MessageFormat.format("Attempting to move forward. Current Position: {0}", pos));
 
         int x = pos.getX();
         int y = pos.getY();
@@ -48,7 +48,7 @@ public class CarServiceImpl implements CarService {
             case E: if (x < maxWidth) pos.setX(x + 1); else handleBoundaryViolation(pos); break;
             case W: if (x > 0) pos.setX(x - 1); else handleBoundaryViolation(pos); break;
         }
-        logger.log(Level.INFO, MessageFormat.format("Moved forward. New Position: {0}", pos));
+        logger.info(MessageFormat.format("Moved forward. New Position: {0}", pos));
     }
 
     private void handleBoundaryViolation(Position pos) {

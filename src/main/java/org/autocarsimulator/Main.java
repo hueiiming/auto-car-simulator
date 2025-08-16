@@ -19,7 +19,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             Properties properties = ConfigLoader.loadProperties(CONFIG_FILE);
-            LOGGER.log(Level.INFO, "Properties file loaded successfully.");
+            LOGGER.info("Properties file loaded successfully.");
 
             InputValidatorService inputValidatorSingleService = new InputValidatorSingleServiceImpl();
             InputValidatorService inputValidatorMultiServiceService = new InputValidatorMultiServiceImpl();
@@ -32,7 +32,7 @@ public class Main {
             CarController multiCarController = new MultiCarControllerImpl(carService, LOGGER);
             carControllerExecutor.executeMultiCarController(properties, multiCarController);
 
-            LOGGER.log(Level.INFO, "Run ended successfully");
+            LOGGER.info("Run ended successfully");
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "An error occurred while accessing files: {0}", e.getMessage());
             LOGGER.log(Level.SEVERE, "Exception details: ", e);

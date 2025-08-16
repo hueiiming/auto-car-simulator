@@ -31,7 +31,7 @@ public class CarControllerExecutor {
 
             Result result = singleCarController.executeCarController(input);
             util.writeOutputFile(outputFilePath, result.getResult(), logger);
-            logger.log(Level.INFO, "SingleCarController execution completed.");
+            logger.info("SingleCarController execution completed.");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error during SingleCarController execution: {0}", e.getMessage());
             throw new RuntimeException(e);
@@ -49,7 +49,7 @@ public class CarControllerExecutor {
 
             Result result = multiCarController.executeCarController(input);
             util.writeOutputFile(outputFilePath, result.getResult(), logger);
-            logger.log(Level.INFO, "MultiCarController execution completed.");
+            logger.info("MultiCarController execution completed.");
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error during MultiCarController execution: {0}", e.getMessage());
             throw new RuntimeException(e);

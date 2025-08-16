@@ -70,7 +70,7 @@ public class util {
     public static void writeOutputFile(String filePath, String output, Logger logger) {
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(output);
-            logger.log(Level.INFO, MessageFormat.format("Successfully written output to {0}", filePath));
+            logger.info(MessageFormat.format("Successfully written output to {0}", filePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -54,7 +54,7 @@ public class MultiCarControllerImpl implements CarController {
             }
         }
 
-        logger.log(Level.INFO, "No collision");
+        logger.info("No collision");
         return new CollisionResult(); // Return no collision result
     }
 
