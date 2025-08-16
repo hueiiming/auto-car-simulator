@@ -17,7 +17,7 @@ public class MultiCarControllerTest {
     private final MultiCarControllerImpl controller = new MultiCarControllerImpl(carService);
 
     @Test
-    public void testRoundRobinExecution() {
+    public void testNoCollision() {
         Car carA = new Car("A", new Position(0, 0, Direction.N), new ArrayList<>(List.of(Command.F, Command.R)));
         Car carB = new Car("B", new Position(1, 1, Direction.E), new ArrayList<>(List.of(Command.F, Command.L)));
         Input input = new Input(new Field(5, 5), new ArrayList<>(List.of(carA, carB)));

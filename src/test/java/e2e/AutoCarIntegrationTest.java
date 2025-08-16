@@ -23,8 +23,7 @@ public class AutoCarIntegrationTest {
 
         String inputFilePath = "src/test/resources/input/input1.txt";
         String outputFilePath = "src/test/resources/output/output1.txt";
-        List<String> inputLines = Files.readAllLines(new File(inputFilePath).toPath());
-        Input input = util.parseInput1(inputLines);
+        Input input = util.parseInput1(inputFilePath);
 
         CarService carService = new CarServiceImpl();
         CarController singleCarController = new SingleCarControllerImpl(carService);
@@ -41,8 +40,7 @@ public class AutoCarIntegrationTest {
 
         String inputFilePath = "src/test/resources/input/input2.txt";
         String outputFilePath = "src/test/resources/output/output2.txt";
-        List<String> inputLines = Files.readAllLines(new File(inputFilePath).toPath());
-        Input input = util.parseInput2(inputLines);
+        Input input = util.parseInput2(inputFilePath);
 
         CarService carService = new CarServiceImpl();
         CarController multiCarController = new MultiCarControllerImpl(carService);

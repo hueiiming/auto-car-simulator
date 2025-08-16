@@ -3,6 +3,7 @@ package org.autocarsimulator.controller;
 import org.autocarsimulator.model.*;
 import org.autocarsimulator.service.CarService;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +37,8 @@ public class MultiCarControllerImpl implements CarController {
 
                 for (Car otherCar : cars) {
                     if (isCollision(car, otherCar)) {
-                        LOGGER.log(Level.WARNING, "Collision detected between {0} and {1} at position {2} on step {3}.",
-                                new Object[]{car.getName(), otherCar.getName(), car.getPosition(), steps + 1});
+                        LOGGER.log(Level.WARNING, MessageFormat.format("Collision detected between {0} and {1} at position {2} on step {3}.",
+                                car.getName(), otherCar.getName(), car.getPosition(), steps + 1));
                         return new CollisionResult(car.getName(), otherCar.getName(), car.getPosition(), steps + 1, true);
                     }
                 }
