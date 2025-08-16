@@ -4,12 +4,15 @@ import org.autocarsimulator.model.*;
 import org.autocarsimulator.service.CarService;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SingleCarControllerImpl implements CarController {
     private final CarService carService;
+    private final Logger logger;
 
-    public SingleCarControllerImpl(CarService carService) {
+    public SingleCarControllerImpl(CarService carService, Logger logger) {
         this.carService = carService;
+        this.logger = logger;
     }
     @Override
     public Result executeCarController(Input input) {
@@ -19,6 +22,7 @@ public class SingleCarControllerImpl implements CarController {
         for (Command command : commands) {
             this.carService.drive(car, command, field.getWidth(), field.getHeight());
         }
+
         return new SingleCarResult(car.getPosition());
     }
 }

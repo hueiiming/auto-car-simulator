@@ -11,10 +11,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class UtilTest {
+    private static final Logger LOGGER = Logger.getLogger(UtilTest.class.getName());
+
     @Test
     public void testParseInput1() throws IOException {
         Input input = util.parseInput1("src/test/resources/input/input1.txt");
@@ -114,7 +117,7 @@ public class UtilTest {
     public void testWriteOutputFile() throws IOException {
         String filePath = "src/test/resources/output/testOutput.txt";
         String content = "Test Output";
-        util.writeOutputFile(filePath, content);
+        util.writeOutputFile(filePath, content, LOGGER);
 
         List<String> lines = Files.readAllLines(Paths.get(filePath));
         assertEquals(1, lines.size());

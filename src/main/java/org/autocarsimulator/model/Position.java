@@ -20,4 +20,9 @@ public class Position {
 
     public void setDirection(Direction direction) { this.direction = direction; }
 
+    public String toString() {
+        return "x=" + x + ", y=" + y + ", direction=" + direction.toString();
+
+    }
+
 }

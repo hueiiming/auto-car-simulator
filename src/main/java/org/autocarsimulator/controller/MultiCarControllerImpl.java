@@ -9,12 +9,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MultiCarControllerImpl implements CarController {
-    private static final Logger LOGGER = Logger.getLogger(MultiCarControllerImpl.class.getName());
-
     private final CarService carService;
+    private final Logger logger;
 
-    public MultiCarControllerImpl(CarService carService) {
+    public MultiCarControllerImpl(CarService carService, Logger logger) {
         this.carService = carService;
+        this.logger = logger;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class MultiCarControllerImpl implements CarController {
 
                 for (Car otherCar : cars) {
                     if (isCollision(car, otherCar)) {
-                        LOGGER.log(Level.WARNING, MessageFormat.format("Collision detected between {0} and {1} at position {2} on step {3}.",
+                        logger.log(Level.WARNING, MessageFormat.format("Collision detected between {0} and {1} at position {2} on step {3}.",
                                 car.getName(), otherCar.getName(), car.getPosition(), steps + 1));
                         return new CollisionResult(car.getName(), otherCar.getName(), car.getPosition(), steps + 1, true);
                     }
@@ -50,6 +50,7 @@ public class MultiCarControllerImpl implements CarController {
                 break;
             }
         }
+        logger.log(Level.INFO, "No collision");
         return new CollisionResult();
     }
 

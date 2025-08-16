@@ -6,8 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class util {
@@ -64,9 +67,10 @@ public class util {
         return Files.readAllLines(Paths.get(filePath));
     }
 
-    public static void writeOutputFile(String filePath, String output) {
+    public static void writeOutputFile(String filePath, String output, Logger logger) {
         try (FileWriter writer = new FileWriter(filePath)) {
             writer.write(output);
+            logger.log(Level.INFO, MessageFormat.format("Successfully written output to {0}", filePath));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

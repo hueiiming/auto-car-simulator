@@ -1,8 +1,5 @@
 package org.autocarsimulator.model;
 
-import org.autocarsimulator.model.Position;
-import org.autocarsimulator.model.Result;
-
 public class SingleCarResult implements Result {
     private final Position finalPosition;
     public SingleCarResult (Position finalPosition) {

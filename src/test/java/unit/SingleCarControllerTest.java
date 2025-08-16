@@ -8,13 +8,17 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class SingleCarControllerTest {
-    private final CarService carService = new CarServiceImpl();
+    private static final Logger LOGGER = Logger.getLogger(SingleCarControllerTest.class.getName());
 
-    private final SingleCarControllerImpl controller = new SingleCarControllerImpl(carService);
+    private final CarService carService = new CarServiceImpl(LOGGER);
+
+    private final SingleCarControllerImpl controller = new SingleCarControllerImpl(carService, LOGGER);
 
     @Test
     public void testSingleCarExecution() {
@@ -33,11 +37,9 @@ public class SingleCarControllerTest {
     public void testBoundaryCondition() {
         Car car = new Car("A", new Position(0, 0, Direction.S), new ArrayList<>(List.of(Command.F)));
         Input input = new Input(new Field(5, 5), new ArrayList<>(List.of(car)));
-
-        Result result = controller.executeCarController(input);
-
-        assertEquals(0, car.getPosition().getX());
-        assertEquals(0, car.getPosition().getY());
-        assertEquals("0 0 S", result.getResult());
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            Result result = controller.executeCarController(input);
+        });
+        assertEquals("Boundary violation at position x=0, y=0, direction=S", exception.getMessage());
     }
 }

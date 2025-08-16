@@ -8,13 +8,15 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MultiCarControllerTest {
+    private static final Logger LOGGER = Logger.getLogger(MultiCarControllerTest.class.getName());
 
-    private final CarService carService = new CarServiceImpl();
-    private final MultiCarControllerImpl controller = new MultiCarControllerImpl(carService);
+    private final CarService carService = new CarServiceImpl(LOGGER);
+    private final MultiCarControllerImpl controller = new MultiCarControllerImpl(carService, LOGGER);
 
     @Test
     public void testNoCollision() {

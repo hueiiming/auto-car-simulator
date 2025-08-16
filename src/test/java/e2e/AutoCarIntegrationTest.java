@@ -13,10 +13,12 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AutoCarIntegrationTest {
+    private static final Logger LOGGER = Logger.getLogger(AutoCarIntegrationTest.class.getName());
 
     @Test
     public void testSingleCarWithMockedInputFile() throws Exception {
@@ -25,10 +27,10 @@ public class AutoCarIntegrationTest {
         String outputFilePath = "src/test/resources/output/output1.txt";
         Input input = util.parseInput1(inputFilePath);
 
-        CarService carService = new CarServiceImpl();
-        CarController singleCarController = new SingleCarControllerImpl(carService);
+        CarService carService = new CarServiceImpl(LOGGER);
+        CarController singleCarController = new SingleCarControllerImpl(carService, LOGGER);
         Result result = singleCarController.executeCarController(input);
-        util.writeOutputFile(outputFilePath, result.getResult());
+        util.writeOutputFile(outputFilePath, result.getResult(), LOGGER);
 
         List<String> output = Files.readAllLines(new File(outputFilePath).toPath());
 
@@ -42,10 +44,10 @@ public class AutoCarIntegrationTest {
         String outputFilePath = "src/test/resources/output/output2.txt";
         Input input = util.parseInput2(inputFilePath);
 
-        CarService carService = new CarServiceImpl();
-        CarController multiCarController = new MultiCarControllerImpl(carService);
+        CarService carService = new CarServiceImpl(LOGGER);
+        CarController multiCarController = new MultiCarControllerImpl(carService, LOGGER);
         Result result = multiCarController.executeCarController(input);
-        util.writeOutputFile(outputFilePath, result.getResult());
+        util.writeOutputFile(outputFilePath, result.getResult(), LOGGER);
 
         List<String> output = Files.readAllLines(new File(outputFilePath).toPath());
 

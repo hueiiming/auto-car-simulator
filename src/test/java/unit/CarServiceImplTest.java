@@ -8,11 +8,16 @@ import org.autocarsimulator.service.CarService;
 import org.autocarsimulator.service.CarServiceImpl;
 import org.junit.jupiter.api.Test;
 
+import java.util.logging.Logger;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CarServiceImplTest {
 
-    private final CarService carService = new CarServiceImpl();
+    private static final Logger LOGGER = Logger.getLogger(CarServiceImplTest.class.getName());
+
+    private final CarService carService = new CarServiceImpl(LOGGER);
 
     @Test
     public void testTurnLeft() {
@@ -39,8 +44,10 @@ public class CarServiceImplTest {
     @Test
     public void testMoveOutOfBounds() {
         Car car = new Car("CarA", new Position(0, 0, Direction.S), null);
-        carService.drive(car, Command.F, 10, 10);
-        assertEquals(0, car.getPosition().getX());
-        assertEquals(0, car.getPosition().getY());
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            carService.drive(car, Command.F, 10, 10);
+        });
+
+        assertEquals("Boundary violation at position x=0, y=0, direction=S", exception.getMessage());
     }
 }
